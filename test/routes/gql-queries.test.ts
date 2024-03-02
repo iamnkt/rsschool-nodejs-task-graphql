@@ -186,7 +186,7 @@ await test('gql-queries', async (t) => {
           }
       }`,
     });
-
+    
     t.ok(dataUser.user.id === user1.id);
     t.ok(dataUser.user.profile.id === profile1.id);
     t.ok(dataUser.user.profile.memberType?.id === MemberTypeId.BASIC);
