@@ -1,5 +1,7 @@
 import { GraphQLInputObjectType, GraphQLObjectType, GraphQLString } from "graphql";
 import { UUIDType } from "./uuid.js";
+import { Static } from "@sinclair/typebox";
+import { createPostSchema } from "../../posts/schemas.js";
 
 export const PostType = new GraphQLObjectType({
   name: 'PostType',
@@ -20,7 +22,7 @@ export const PostType = new GraphQLObjectType({
 });
 
 export const CreatePostType = new GraphQLInputObjectType({
-  name: 'CreatePostType',
+  name: 'CreatePostInput',
   fields: {
     title: {
       type: GraphQLString
@@ -34,14 +36,26 @@ export const CreatePostType = new GraphQLInputObjectType({
   },
 });
 
-export const UpdatePostType = new GraphQLInputObjectType({
-  name: 'UpdatePostType',
-  fields: {
-    title: {
-      type: GraphQLString
-    },
-    content: {
-      type: GraphQLString
-    },
-  },
+// export const ChangePostType = new GraphQLInputObjectType({
+//   name: 'ChangePostInput',
+//   fields: {
+//     title: {
+//       type: GraphQLString
+//     },
+//     content: {
+//       type: GraphQLString
+//     },
+//   },
+// });
+
+export const ChangePostType = new GraphQLInputObjectType({
+  name: 'ChangePostInput',
+  fields: () => ({
+     title: { 
+        type: GraphQLString,
+      },
+      content: { 
+        type: GraphQLString,
+      },
+  }),
 });

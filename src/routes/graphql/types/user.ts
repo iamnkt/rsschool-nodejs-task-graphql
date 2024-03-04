@@ -67,7 +67,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
 });
 
 export const CreateUserType = new GraphQLInputObjectType({
-  name: 'CreateUserType',
+  name: 'CreateUserInput',
   fields: () => ({
     name: { 
       type: GraphQLString,
@@ -79,7 +79,7 @@ export const CreateUserType = new GraphQLInputObjectType({
 });
 
 export const UpdateUserType = new GraphQLInputObjectType({
-  name: 'UpdateUserType',
+  name: 'ChangeUserInput',
   fields: () => ({
     name: { 
       type: GraphQLString,

@@ -98,6 +98,7 @@ await test('gql-queries', async (t) => {
       },
     });
 
+    console.log(data);
     t.ok(data.memberType.id === MemberTypeId.BASIC);
     t.ok(data.post.id === post1.id);
     t.ok(data.user.id === user1.id);
