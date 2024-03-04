@@ -1,4 +1,4 @@
-import { GraphQLFloat, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLString } from "graphql";
+import { GraphQLFloat, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLString } from "graphql";
 import { UUIDType } from "./uuid.js";
 import { ProfileType } from "./profile.js";
 import { PostType } from "./post.js";
@@ -7,18 +7,18 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'UserType',
   fields: () => ({
     id: {
-      type: new GraphQLNonNull(UUIDType),
+      type: UUIDType,
     },
     name: { 
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     balance: {
-      type: new GraphQLNonNull(GraphQLFloat),
+      type: GraphQLFloat,
     },
     profile: {
       type: ProfileType,
       resolve: async (user, _args, context) => {
-        return context.profile.findUnique({
+        return context.prisma.profile.findUnique({
           where: {
             userId: user.id,
           },
@@ -28,7 +28,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve: async (user, _args, context) => {
-        return context.post.findMany({
+        return context.prisma.post.findMany({
           where: {
             authorId: user.id,
           },
@@ -36,9 +36,9 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
       }
     },
     userSubscribedTo: {
-      type: new GraphQLNonNull(new GraphQLList(UserType)),
+      type: new GraphQLList(UserType),
       resolve: async (user, _args, context) => {
-        return context.user.findMany({
+        return context.prisma.user.findMany({
           where: {
             subscribedToUser: {
               some: {
@@ -50,9 +50,9 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
       }
     },
     subscribedToUser: {
-      type: new GraphQLNonNull(new GraphQLList(UserType)),
+      type: new GraphQLList(UserType),
       resolve: async (user, _args, context) => {
-        return context.user.findMany({
+        return context.prisma.user.findMany({
           where: {
             userSubscribedTo: {
               some: {
@@ -64,4 +64,28 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
       }
     },
   })
+});
+
+export const CreateUserType = new GraphQLInputObjectType({
+  name: 'CreateUserType',
+  fields: () => ({
+    name: { 
+      type: GraphQLString,
+    },
+    balance: {
+      type: GraphQLFloat,
+    },
+  }),
+});
+
+export const UpdateUserType = new GraphQLInputObjectType({
+  name: 'UpdateUserType',
+  fields: () => ({
+    name: { 
+      type: GraphQLString,
+    },
+    balance: {
+      type: GraphQLFloat,
+    },
+  }),
 });
