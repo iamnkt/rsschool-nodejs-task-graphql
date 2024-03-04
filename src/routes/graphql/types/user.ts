@@ -56,16 +56,16 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
               },
             });
 
-          const postsByUser = new Map();
+          const postsByUser = {};
       
           posts.forEach((post) => {
-            if (!postsByUser.has(post.authorId)) {
-              postsByUser.set(post.authorId, []);
+            if (!Object.keys(postsByUser).includes(post.authorId)) {
+              postsByUser[post.authorId] = [];
             }
-            postsByUser.get(post.authorId)?.push(post);
+            postsByUser[post.authorId].push(post);
           });
       
-          return ids.map((id) => postsByUser.get(id));
+          return ids.map((id) => postsByUser[id]);
           });
           dataloaders.set(info.fieldNodes, dl);
         }
