@@ -17,13 +17,13 @@ export const MemberType = new GraphQLObjectType({
   name: 'MemberType',
   fields: {
     id: {
-      type: new GraphQLNonNull(MemberTypeIdType),
+      type: MemberTypeIdType,
     },
     discount: {
-      type: new GraphQLNonNull(GraphQLFloat),
+      type: GraphQLFloat,
     },
     postsLimitPerMonth: {
-      type: new GraphQLNonNull(GraphQLInt),
+      type: GraphQLInt,
     },
   }
 });
