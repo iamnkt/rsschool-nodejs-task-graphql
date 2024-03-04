@@ -19,16 +19,17 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
     async handler(req) {
       const { query: source, variables: variableValues } = req.body;
 
-      const validationResults = validate(schema, parse(source), [depthLimit(5)]);
+      const validationErrors = validate(schema, parse(source), [depthLimit(5)]);
 
-      if (validationResults.length) {
+      if (validationErrors.length) {
         return {
-          errors: validationResults,
+          errors: validationErrors,
         };
       }
 
       const contextValue = {
         prisma,
+        dataloaders: new WeakMap(),
       }
 
       return graphql({

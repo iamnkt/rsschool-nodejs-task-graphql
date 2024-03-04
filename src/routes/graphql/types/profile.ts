@@ -1,6 +1,7 @@
 import { GraphQLBoolean, GraphQLInputObjectType, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from "graphql";
 import { UUIDType } from "./uuid.js";
 import { MemberType, MemberTypeIdType } from "./memberType.js";
+import DataLoader from "dataloader";
 
 export const ProfileType = new GraphQLObjectType({
   name: 'ProfileType',
@@ -22,12 +23,27 @@ export const ProfileType = new GraphQLObjectType({
     },
     memberType: {
       type: MemberType,
-      resolve: async (profile, _args, context) => {
-        return context.prisma.memberType.findUnique({
-          where: {
-            id: profile.memberTypeId,
-          }
-        })
+      resolve: async (profile, _args, context, info) => {
+        const { dataloaders } = context;
+
+        let dl = dataloaders.get(info.fieldNodes);
+
+        if (!dl) {
+          dl = new DataLoader(async (ids: readonly string[]) => {
+            const memberTypes = await context.prisma.memberType.findMany({
+              where: {
+                id: { in: ids },
+              },
+            });
+
+            const sortedInIdsOrder = ids.map(id => memberTypes.find(x => x.id === id));
+
+            return sortedInIdsOrder;
+          });
+          dataloaders.set(info.fieldNodes, dl);
+        }
+
+        return dl.load(profile.memberTypeId);
       }
     }
   }),

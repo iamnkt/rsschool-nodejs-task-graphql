@@ -158,23 +158,20 @@ export const rootMutation = new GraphQLObjectType({
         userId: { type: UUIDType },
         authorId: { type: UUIDType },
       },
-      resolve: async (
-        _,
-        args: {
-          userId: string;
-          authorId: string;
+      resolve: async (_, args, context) => {
+        return context.prisma.user.update({
+        where: {
+          id: args.userId,
         },
-        context: Context,
-      ) => {
-        const subscription = await context.prisma.subscribersOnAuthors.create({
-          data: {
-            subscriberId: args.userId,
-            authorId: args.authorId,
+        data: {
+          userSubscribedTo: {
+            create: {
+              authorId: args.authorId,
+            },
           },
+        },
         });
-  
-        return subscription;
-      },
+      }
     },
     unsubscribeFrom: {
       type: GraphQLBoolean,
