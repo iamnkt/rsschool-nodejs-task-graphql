@@ -33,7 +33,7 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
       }
 
       return graphql({
-        schema: schema,
+        schema,
         source,
         variableValues,
         contextValue,
