@@ -1,4 +1,4 @@
-import { GraphQLEnumType, GraphQLFloat, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from "graphql";
+import { GraphQLEnumType, GraphQLFloat, GraphQLInt, GraphQLObjectType } from "graphql";
 import { MemberTypeId } from "../../member-types/schemas.js";
 
 export const MemberTypeIdType = new GraphQLEnumType({

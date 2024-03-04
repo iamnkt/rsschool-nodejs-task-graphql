@@ -1,7 +1,5 @@
 import { GraphQLInputObjectType, GraphQLObjectType, GraphQLString } from "graphql";
 import { UUIDType } from "./uuid.js";
-import { Static } from "@sinclair/typebox";
-import { createPostSchema } from "../../posts/schemas.js";
 
 export const PostType = new GraphQLObjectType({
   name: 'PostType',

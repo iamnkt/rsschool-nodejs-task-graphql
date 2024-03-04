@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql";
 import { MemberType, MemberTypeIdType } from "./types/memberType.js";
 import { PostType } from "./types/post.js";
 import { UUIDType } from "./types/uuid.js";

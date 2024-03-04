@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLInputObjectType, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from "graphql";
+import { GraphQLBoolean, GraphQLInputObjectType, GraphQLInt, GraphQLObjectType } from "graphql";
 import { UUIDType } from "./uuid.js";
 import { MemberType, MemberTypeIdType } from "./memberType.js";
 import DataLoader from "dataloader";
